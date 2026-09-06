@@ -1,0 +1,11 @@
+# DeepSeek Harness upstream source, cloned for reference only
+reference/
+
+# Dependencies
+node_modules/
+
+# OS / editor noise
+.DS_Store
+*.log
+.idea/
+.vscode/

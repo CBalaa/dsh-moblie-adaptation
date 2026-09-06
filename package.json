@@ -1,0 +1,34 @@
+{
+  "name": "dsh-mobile-adaptation",
+  "version": "0.1.0",
+  "description": "Mobile browser adaptation plugin for the DeepSeek Harness web GUI (Android / iOS / HarmonyOS).",
+  "scripts": {
+    "verify": "node scripts/smoke.mjs"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT"
+}

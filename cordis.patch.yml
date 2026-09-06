@@ -1,0 +1,10 @@
+# dsh-mobile-adaptation bundle patch.
+#
+# This package is both a bundle (dsh.bundle.patch points here, so
+# `dsh plugin --profile web add <this package>` registers it automatically)
+# and a browser client plugin (dsh.client in package.json). This patch inserts
+# one Loader entry that names the package itself; the client-modules node half
+# scans that entry, sees `dsh.client`, and serves lib/client.js to the browser.
+- insert:
+    - id: client-mobile-adaptation
+      name: dsh-mobile-adaptation
