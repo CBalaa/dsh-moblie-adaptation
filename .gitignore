@@ -9,3 +9,7 @@ node_modules/
 *.log
 .idea/
 .vscode/
+
+# npm auth (local, do not commit)
+.npmrc
+.npm-cache/

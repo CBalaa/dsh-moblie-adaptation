@@ -52,7 +52,22 @@ node scripts/smoke.mjs     # 等价于 pnpm run verify / npm run verify
 
 ## 安装
 
-> 前提：已安装并可用 `dsh` 命令，且 `dsh web` 能正常启动。
+### 从 npm 安装（推荐）
+
+已发布到 npm，直接用 DSH 自带的 CLI 安装：
+
+```bash
+dsh plugin --profile web add dsh-mobile-adaptation
+# 也可固定版本：dsh-mobile-adaptation@0.1.0
+```
+
+`dsh plugin add` 会把参数转发给 profile 目录里的 pnpm，并把声明了 `dsh.bundle` 的包追加到 `dsh.profile.bundles` 栈尾。因为本包声明了 `dsh.bundle`（`dsh.bundle.patch` 指向 `cordis.patch.yml`，其中 `insert` 一行指向本包自身的 client entry），所以装完无需手动改任何配置。
+
+装完**重启 web profile**（`dsh --profile web`，或简写 `dsh web`）即可生效。用手机浏览器（与电脑同一局域网）打开 `dsh web` 打印的地址即可。
+
+> 前置：已安装并可用 `dsh` 命令，且 `dsh web` 能正常启动。
+
+### 从源码安装（开发）
 
 在**本仓库根目录**执行：
 
@@ -60,23 +75,16 @@ node scripts/smoke.mjs     # 等价于 pnpm run verify / npm run verify
 dsh plugin --profile web add .
 ```
 
-`add .` 会被 `dsh plugin` 锚定到当前目录，把本包以 `link:` 软链接方式装进 `$DSH_HOME/profiles/web`；因为本包声明了 `dsh.bundle`，`dsh.profile.bundles` 会自动加入本包，无需手动改配置。
-
-然后照常启动：
-
-```sh
-dsh web
-```
-
-用手机浏览器（与电脑同一局域网）打开 `dsh web` 打印的地址即可。
-
-因为是 `link:` 软链接安装，**以后改完 `lib/client.js` 直接重启 `dsh web` 就生效，不用重新安装**。
+`add .` 会被 `dsh plugin` 锚定到当前目录，把本包以 `link:` 软链接方式装进 `$DSH_HOME/profiles/web`；因为本包声明了 `dsh.bundle`，`dsh.profile.bundles` 会自动加入本包。因为是软链接安装，**以后改完 `lib/client.js` 直接重启 `dsh web` 就生效，不用重新安装**。
 
 ### 更新 / 卸载
 
 ```sh
-# 更新（重新安装本目录，等价于刷新软链接 + 重排 bundles）
-dsh plugin --profile web add .
+# 检查是否有新版本
+dsh plugin --profile web outdated
+
+# 更新到最新版本
+dsh plugin --profile web update dsh-mobile-adaptation
 
 # 卸载
 dsh plugin --profile web remove dsh-mobile-adaptation
